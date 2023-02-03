@@ -10,7 +10,7 @@ const router = express();
 
 mongoose.connect(config.mongo.url, {retryWrites: true, w: 'majority'})
 .then(()=>{
-    Logging.info('connected');
+    Logging.info('connected to mongo');
     //Il server si avviera solo se mongo e connesso per quest chiamo qui la function
     StartServer();
 })
@@ -32,11 +32,16 @@ Logging.info(`Incoming -> Method: [${req.method}] - Url: [${req.url}] - IP: [${r
 })
 next();
 });
+
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
+//regole del mio API 
 router.use((req, res, next) => {
+    //The request can come from anywhere *
+    //Se vuoi renderlo piu privatopuoi mettere una lista di API or trusted sources
     res.header('Access-Control-Allow-Origin', '*');
+    //What headers are allowed to use inside the project
     res.header('Access-Control-Allow-Headers', 'ORIGIN, X-Requested-Width, Content-Type, Accept, Authorization');
     if (req.method === 'OPTIONS') {
         res.header('Access-Control-Allow-Methods', 'PUT,POST, PATCH, DELETE, GET');
@@ -44,5 +49,22 @@ router.use((req, res, next) => {
     }
     next();
 });
+
+//Routes
+
+//HealthCheck
+router.get('/ping', (req,res,next)=>{
+    res.status(200).json({message: 'pong'});
+})
+
+//Error Handling
+router.use((req,res,next)=>{
+    const error = new Error('not found');
+    Logging.error(error);
+
+    return res.status(404).json({message: error.message})
+});
+
+http.createServer(router).listen(config.server.port, ()=> Logging.info(`Server is running on port ${config.server.port}.`))
 }
 
