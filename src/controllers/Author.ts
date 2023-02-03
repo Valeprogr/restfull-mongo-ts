@@ -12,7 +12,14 @@ const createAuthor = (req: Request, res: Response, next: NextFunction)=>{
     return author.save().then(author => res.status(201).json({author})).catch(error => res.status(500).json({error}))
 }
 
-const readAuthor = (req: Request, res: Response, next: NextFunction) => {};
+const readAuthor = (req: Request, res: Response, next: NextFunction) => {
+    const authorId= req.params.authorId;
+
+    return Author.findById(authorId)
+    .then(author => author ? res.status(200).json({author}): res.status(404).json({message: 'Not found'}))
+    .catch((error)=>res.status(500).json({error}))
+};
+
 
 const readAllAuthor = (req: Request, res: Response, next: NextFunction) => {};
 
