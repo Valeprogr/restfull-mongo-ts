@@ -47,7 +47,7 @@ const updateAuthor = (req: Request, res: Response, next: NextFunction) => {
 
 const deleteAuthor = (req: Request, res: Response, next: NextFunction) => {
     const authorId = req.params.authorId;
-    return Author.findById(authorId)
+    return Author.findByIdAndDelete(authorId)
     .then((author)=>(author ? res.status(201).json({message: 'daleted'}): res.status(404).json({message: 'Not found'})))
     .catch((error)=>res.status(500).json({error}));
 };

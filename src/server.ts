@@ -3,6 +3,7 @@ import http from "http";
 import mongoose from "mongoose";
 import { config } from "./config/config";
 import Logging from "./library/Loggin";
+import authorRoutes from "./routes/Author";
 
 const router = express();
 
@@ -51,6 +52,8 @@ router.use((req, res, next) => {
 });
 
 //Routes
+router.use('/author', authorRoutes);
+
 
 //HealthCheck
 router.get('/ping', (req,res,next)=>{
