@@ -21,7 +21,11 @@ const readAuthor = (req: Request, res: Response, next: NextFunction) => {
 };
 
 
-const readAllAuthor = (req: Request, res: Response, next: NextFunction) => {};
+const readAll = (req: Request, res: Response, next: NextFunction) => {
+    return Author.find()
+    .then((authors)=> res.status(200).json({authors}))
+    .catch((error)=>res.status(500).json({error}));
+};
 
 const UpdateAuthor = (req: Request, res: Response, next: NextFunction) => {};
 
