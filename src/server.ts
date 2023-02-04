@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { config } from "./config/config";
 import Logging from "./library/Loggin";
 import authorRoutes from "./routes/Author";
+import bookRoutes from "./routes/Book";
 
 const router = express();
 
@@ -52,7 +53,8 @@ router.use((req, res, next) => {
 });
 
 //Routes
-router.use('/author', authorRoutes);
+router.use('/authors', authorRoutes);
+router.use('/books', bookRoutes);
 
 
 //HealthCheck

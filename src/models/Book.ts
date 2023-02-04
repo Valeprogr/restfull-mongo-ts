@@ -10,9 +10,10 @@ export interface IBookModel extends IBook, Document{}
 const BookSchema = new Schema({
     title: {type: String, required: true},
     author: {type: Schema.Types.ObjectId, required: true, ref: 'Author'}
-},{
+},
+{
     timestamps: true,
-    versionKey: true
+    versionKey: false
 }
 );
 
