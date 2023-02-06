@@ -21,12 +21,15 @@ const readBook = (req: Request, res: Response, next: NextFunction) => {
 
     return Book.findById(bookId)
         .populate('author')
+        .select(-'__v')
         .then((book) => (book ? res.status(200).json({ book }) : res.status(404).json({ message: 'Not found' })))
         .catch((error) => res.status(500).json({ error }));
 };
 
 const readAll = (req: Request, res: Response, next: NextFunction) => {
     return Book.find()
+    .populate('author')
+    .select('-__v')
         .then((books) => res.status(200).json({ books }))
         .catch((error) => res.status(500).json({ error }));
 };
